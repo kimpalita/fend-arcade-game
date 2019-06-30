@@ -24,7 +24,53 @@ Enemy.prototype.render = function() {
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
+class Player {
+  constructor(keycode) {
+    this.sprite = 'images/char-cat-girl.png';
+    this.startX = 202; //101 * 2
+    this.startY = 332; //83 * 4
+    this.x = this.startX;
+    this.y = this.startY;
+  }
 
+  update(axis, value) {
+    this[axis] = this[axis] + value;
+    //check if won
+    if (this.y < 83) {
+      winGame();
+    }
+  }
+
+  render() {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+  }
+
+  handleInput(command) {
+    switch (command) {
+      case 'left':
+        if (!this.x == 0) {
+          this.update('x', -101);
+        }
+        break;
+      case 'up':
+        if (!this.y == 0) {
+          this.update('y', -83);
+        }
+        break;
+      case 'right':
+        if (this.x < 101 * 4) {
+          this.update('x', 101);
+        }
+        break;
+      case 'down':
+        if (this.y < 83 * 5) {
+        this.update('y', 83);
+        }
+        break;
+    }
+  }
+
+}
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
@@ -41,6 +87,12 @@ document.addEventListener('keyup', function(e) {
         39: 'right',
         40: 'down'
     };
-
+    console.log('input detected');
     player.handleInput(allowedKeys[e.keyCode]);
 });
+
+function winGame() {
+  console.log("You've won!")
+};
+
+let player = new Player();
