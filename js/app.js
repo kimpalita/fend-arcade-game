@@ -6,8 +6,7 @@ class Enemy {
     this.x = -101;
     this.rows = [83, 166, 249];
     this.y = this.rows[Math.floor(Math.random() * this.rows.length)];
-    this.speed = Math.max(80, Math.floor(Math.random() * 300));
-    this.hasCollided = false;
+    this.speed = Math.max(80, Math.floor(Math.random() * 320));
     this.isVisible = true;
   }
 
@@ -39,7 +38,7 @@ let enemyGenerator = function enemyGen(callback, initialDelay) {
       let nextDelay = Math.max(1000, Math.floor(Math.random() * 2000));
       window.setTimeout(internalCallback, nextDelay);
       callback(enemyID); //createEnemy callback
-      enemyID ++;
+      enemyID++;
     }
   }());
 
@@ -62,7 +61,6 @@ class Player {
     this.x = this.startX;
     this.y = this.startY;
     this.hasWon = false;
-    this.hasCollided = false;
   }
 
   update(axis, value) {
@@ -73,10 +71,11 @@ class Player {
     }
   }
 
-  resetPosition() {
+  //Reset function to be called when collision occurs or the game has been won
+  reset() {
     this.x = this.startX;
     this.y = this.startY;
-    this.hasCollided = false;
+    this.hasWon = false;
   }
 
   //draws player on canvas
@@ -84,7 +83,8 @@ class Player {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
   }
 
-  //handles arrow input commands
+  //handles input commands from keyboard
+  //calls this.update() with associated axis and displacement
   handleInput(command) {
     if (!this.hasWon) {
       switch (command) {
@@ -105,33 +105,30 @@ class Player {
           break;
         case 'down':
           if (this.y < 83 * 5) {
-          this.update('y', 83);
+            this.update('y', 83);
           }
           break;
       }
     }
   }
-
 }
 
-// Now instantiate your objects.
-// Place all enemy objects in an array called allEnemies
-// Place the player object in a variable called player
+// Instantiating objects.
 enemyGenerator(createEnemyCallback, 300);
 let player = new Player();
 let allEnemies = [];
 
-// This listens for key presses and sends the keys to your
-// Player.handleInput() method. You don't need to modify this.
+// This listens for key presses and sends the keys to
+// Player.handleInput() method.
 document.addEventListener('keyup', function(e) {
-    var allowedKeys = {
-        37: 'left',
-        38: 'up',
-        39: 'right',
-        40: 'down'
-    };
-    console.log(allowedKeys[e.keyCode]);
-    player.handleInput(allowedKeys[e.keyCode]);
+  var allowedKeys = {
+    37: 'left',
+    38: 'up',
+    39: 'right',
+    40: 'down'
+  };
+  console.log(allowedKeys[e.keyCode]);
+  player.handleInput(allowedKeys[e.keyCode]);
 });
 
 
@@ -142,17 +139,19 @@ let checkCollisions = function checkCollision() {
   });
 
   if (collidedEnemy) {
-    //window.setTimeout(player.resetPosition(), 500);
-    player.resetPosition();
+    player.reset();
   }
 };
 
+//function to filter enemy array by removing enemies that have moved off canvas
 function removeEnemy(id) {
-  allEnemies = allEnemies.filter(function(enemy){
-      return enemy.id !== id;
-    });
+  allEnemies = allEnemies.filter(function(enemy) {
+    return enemy.id !== id;
+  });
 };
 
+//when game has won, add congratulatory text and a reset game button
+//remove newly created elements, when button is clicked
 function winGame() {
   let congrats = document.createElement('p');
   congrats.id = 'congrats';
@@ -167,13 +166,7 @@ function winGame() {
 
   document.querySelector('.btn-reset').addEventListener('click', function() {
     this.remove();
-    document.querySelector('#congrats').remove();
-    resetGame();
+    congrats.remove();
+    player.reset();
   });
-
-}
-
-function resetGame() {
-  player.x = player.startX;
-  player.y = player.startY;
 }
