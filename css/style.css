@@ -1,3 +1,27 @@
 body {
     text-align: center;
 }
+
+.btn-reset {
+  display: block;
+  width: 200px;
+  height: 60px;
+  position: absolute;
+  top: 30%;
+  left: calc(50% - 100px);
+  background: orangeRed;
+  border: none;
+  color: white;
+  font-size: 1.2em;
+  font-weight: bold;
+  border-radius: 8px;
+}
+
+#congrats {
+  font-family: sans-serif;
+  font-size: 1em;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  margin-top: 0.5em;
+}

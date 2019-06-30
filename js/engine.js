@@ -40,6 +40,7 @@ var Engine = (function(global) {
          */
         var now = Date.now(),
             dt = (now - lastTime) / 1000.0;
+            //console.log(dt);
 
         /* Call our update/render functions, pass along the time delta to
          * our update function since it may be used for smooth animation.
@@ -57,9 +58,7 @@ var Engine = (function(global) {
         win.requestAnimationFrame(main);
     }
 
-    /* This function does some initial setup that should only occur once,
-     * particularly setting the lastTime variable that is required for the
-     * game loop.
+    /* This function does some initial setup that should only occur once, particularly setting the lastTime variable that is required for the game loop.
      */
     function init() {
         reset();
@@ -67,18 +66,11 @@ var Engine = (function(global) {
         main();
     }
 
-    /* This function is called by main (our game loop) and itself calls all
-     * of the functions which may need to update entity's data. Based on how
-     * you implement your collision detection (when two entities occupy the
-     * same space, for instance when your character should die), you may find
-     * the need to add an additional function call here. For now, we've left
-     * it commented out - you may or may not want to implement this
-     * functionality this way (you could just implement collision detection
-     * on the entities themselves within your app.js file).
+    /* This function is called by main (our game loop) and itself calls all of the functions which may need to update entity's data. Based on how you implement your collision detection (when two entities occupy the same space, for instance when your character should die), you may find the need to add an additional function call here. For now, we've left it commented out - you may or may not want to implement this functionality this way (you could just implement collision detection on the entities themselves within your app.js file).
      */
     function update(dt) {
         updateEntities(dt);
-        //checkCollisions();
+        checkCollisions();
     }
 
     /* This is called by the update function and loops through all of the
@@ -89,9 +81,9 @@ var Engine = (function(global) {
      * render methods.
      */
     function updateEntities(dt) {
-        // allEnemies.forEach(function(enemy) {
-        //     enemy.update(dt);
-        // });
+        allEnemies.forEach(function(enemy) {
+            enemy.update(dt);
+        });
         player.update();
     }
 
@@ -145,31 +137,24 @@ var Engine = (function(global) {
      * on your enemy and player entities within app.js
      */
     function renderEntities() {
-        /* Loop through all of the objects within the allEnemies array and call
-         * the render function you have defined.
+        /* Loop through all of the objects within the allEnemies array and call the render function you have defined.
          */
-        // allEnemies.forEach(function(enemy) {
-        //     enemy.render();
-        // });
+        allEnemies.forEach(function(enemy) {
+            enemy.render();
+        });
 
         player.render();
     }
 
-    /* This function does nothing but it could have been a good place to
-     * handle game reset states - maybe a new game menu or a game over screen
-     * those sorts of things. It's only called once by the init() method.
-     */
+    /* This function does nothing but it could have been a good place to handle game reset states - maybe a new game menu or a game over screen those sorts of things. It's only called once by the init() method. */
     function reset() {
         // noop
-        player.x = player.startX;
-        player.y = player.startY;
-        player.update();
+        // player.x = player.startX;
+        // player.y = player.startY;
+        // player.update();
     }
 
-    /* Go ahead and load all of the images we know we're going to need to
-     * draw our game level. Then set init as the callback method, so that when
-     * all of these images are properly loaded our game will start.
-     */
+    /* Go ahead and load all of the images we know we're going to need to draw our game level. Then set init as the callback method, so that when all of these images are properly loaded our game will start. */
     Resources.load([
         'images/stone-block.png',
         'images/water-block.png',
@@ -179,9 +164,7 @@ var Engine = (function(global) {
     ]);
     Resources.onReady(init);
 
-    /* Assign the canvas' context object to the global variable (the window
-     * object when run in a browser) so that developers can use it more easily
-     * from within their app.js files.
+    /* Assign the canvas' context object to the global variable (the window object when run in a browser) so that developers can use it more easily from within their app.js files.
      */
     global.ctx = ctx;
 })(this);
