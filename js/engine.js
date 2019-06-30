@@ -51,9 +51,8 @@ var Engine = (function(global) {
          * for the next time this function is called.
          */
         lastTime = now;
-
-        /* Use the browser's requestAnimationFrame function to call this
-         * function again as soon as the browser is able to draw another frame.
+        //console.log(now);
+        /* Use the browser's requestAnimationFrame function to call this function again as soon as the browser is able to draw another frame.
          */
         win.requestAnimationFrame(main);
     }
@@ -79,7 +78,7 @@ var Engine = (function(global) {
      */
     function update(dt) {
         updateEntities(dt);
-        // checkCollisions();
+        //checkCollisions();
     }
 
     /* This is called by the update function and loops through all of the
@@ -90,9 +89,9 @@ var Engine = (function(global) {
      * render methods.
      */
     function updateEntities(dt) {
-        allEnemies.forEach(function(enemy) {
-            enemy.update(dt);
-        });
+        // allEnemies.forEach(function(enemy) {
+        //     enemy.update(dt);
+        // });
         player.update();
     }
 
@@ -149,9 +148,9 @@ var Engine = (function(global) {
         /* Loop through all of the objects within the allEnemies array and call
          * the render function you have defined.
          */
-        allEnemies.forEach(function(enemy) {
-            enemy.render();
-        });
+        // allEnemies.forEach(function(enemy) {
+        //     enemy.render();
+        // });
 
         player.render();
     }
@@ -162,6 +161,9 @@ var Engine = (function(global) {
      */
     function reset() {
         // noop
+        player.x = player.startX;
+        player.y = player.startY;
+        player.update();
     }
 
     /* Go ahead and load all of the images we know we're going to need to
@@ -173,7 +175,7 @@ var Engine = (function(global) {
         'images/water-block.png',
         'images/grass-block.png',
         'images/enemy-bug.png',
-        'images/char-boy.png'
+        'images/char-cat-girl.png'
     ]);
     Resources.onReady(init);
 
