@@ -68,6 +68,7 @@ class Player {
     if (this.y === 0 && !this.hasWon) {
       this.hasWon = true;
       winGame();
+      this.reset;
     }
   }
 
@@ -167,6 +168,5 @@ function winGame() {
   document.querySelector('.btn-reset').addEventListener('click', function() {
     this.remove();
     congrats.remove();
-    player.reset();
   });
 }
