@@ -19,8 +19,8 @@ Game consists of moving the player object from the grass blocks to the water blo
 
 ## To-do's
 
-[ ] Player selection
-[ ] Player stats (points, lives, etc.)
-[ ] Gems collection for boosting player object
-[ ] Modal when game is won to display stats
-[ ] Levelling up (increase enemy speed and frequency)
+- [ ] Player selection
+- [ ] Player stats (points, lives, etc.)
+- [ ] Gems collection for boosting player object
+- [ ] Modal when game is won to display stats
+- [ ] Levelling up (increase enemy speed and frequency)
